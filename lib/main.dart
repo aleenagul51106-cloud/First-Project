@@ -1,4 +1,6 @@
+import 'package:first_project/bottom_navbar.dart';
 import 'package:first_project/home_screen.dart';
+import 'package:first_project/menu_screen.dart';
 import 'package:first_project/practice_screen.dart';
 import 'package:first_project/signin_screen.dart';
 import 'package:first_project/signup_screen.dart';
@@ -25,8 +27,10 @@ class MyApp extends StatelessWidget {
       // home: SignInScreen(),
        //  home: SplashScreen(),
       //home: SignUpScreen()
-        home: HomeScreen(),
+       // home: HomeScreen(),
+         // home: MenuScreen(),
 
+      home: BottomNavbar(),
     );
   }
 }
