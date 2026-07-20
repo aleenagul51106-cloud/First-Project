@@ -1,7 +1,9 @@
 import 'package:first_project/bottom_navbar.dart';
+import 'package:first_project/counterapp_screen.dart';
 import 'package:first_project/home_screen.dart';
 import 'package:first_project/menu_screen.dart';
 import 'package:first_project/practice_screen.dart';
+import 'package:first_project/setting_screen.dart';
 import 'package:first_project/signin_screen.dart';
 import 'package:first_project/signup_screen.dart';
 import 'package:first_project/splash_screen.dart';
@@ -30,7 +32,9 @@ class MyApp extends StatelessWidget {
        // home: HomeScreen(),
          // home: MenuScreen(),
 
-      home: BottomNavbar(),
+     // home: BottomNavbar(),
+     // home: SettingScreen(),
+      home: CounterScreen(),
     );
   }
 }
