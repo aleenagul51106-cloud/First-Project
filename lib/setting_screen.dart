@@ -13,7 +13,7 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   File? _image;
   File? _image2;
-
+///function calling of 1st image
   void pickimage() async {
     final pickFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickFile != null) {
@@ -23,9 +23,7 @@ class _SettingScreenState extends State<SettingScreen> {
     }
   }
 
-
-
-///function calling
+///function calling of 2nd image
   void pickimagefromcamera() async {
     final pickFile2 = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickFile2 != null) {
@@ -41,7 +39,9 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
+
+        height: MediaQuery.of(context).size.height, ///with the change in size of the container the text will automatically changed accordingly
+        ///text will not change shape
         width: MediaQuery.of(context).size.width,
         color: Colors.blue,
         child: Center(

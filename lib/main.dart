@@ -1,4 +1,5 @@
 import 'package:first_project/bottom_navbar.dart';
+import 'package:first_project/calculator_screen.dart';
 import 'package:first_project/counterapp_screen.dart';
 import 'package:first_project/home_screen.dart';
 import 'package:first_project/menu_screen.dart';
@@ -8,6 +9,7 @@ import 'package:first_project/signin_screen.dart';
 import 'package:first_project/signup_screen.dart';
 import 'package:first_project/splash_screen.dart';
 import 'package:first_project/student_profile.dart';
+import 'package:first_project/weather_data_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,10 +33,11 @@ class MyApp extends StatelessWidget {
       //home: SignUpScreen()
        // home: HomeScreen(),
          // home: MenuScreen(),
-
      // home: BottomNavbar(),
-     // home: SettingScreen(),
-      home: CounterScreen(),
+    // home: SettingScreen(),
+     //home: CounterScreen(),
+      //home: CalculatorScreen(),
+      home: WeatherScreen(),
     );
   }
 }
