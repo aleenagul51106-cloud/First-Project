@@ -4,12 +4,12 @@ import 'package:first_project/calculator_screen.dart';
 import 'package:first_project/counterapp_screen.dart';
 import 'package:first_project/dashboard_screen.dart';
 import 'package:first_project/firebase_options.dart';
-import 'package:first_project/home_screen.dart';
+import 'package:first_project/view/screens/home_screen/home_screen.dart';
 import 'package:first_project/menu_screen.dart';
 import 'package:first_project/practice_screen.dart';
-import 'package:first_project/setting_screen.dart';
-import 'package:first_project/signin_screen.dart';
-import 'package:first_project/signup_screen.dart';
+import 'package:first_project/view/screens/setting_screen/setting_screen.dart';
+import 'package:first_project/view/screens/auth_screens/signin_screen/signin_screen.dart';
+import 'package:first_project/view/screens/auth_screens/signup_screen/signup_screen.dart';
 import 'package:first_project/splash_screen.dart';
 import 'package:first_project/student_profile.dart';
 import 'package:first_project/weather_data_screen.dart';
@@ -35,19 +35,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.green)),
-     //  home: PracticeScreen(),
-     // home: StudentProfile(),
-      // home: SignInScreen(),
         home: SplashScreen(),
-      //home: SignUpScreen()
-       // home: HomeScreen(),
-         // home: MenuScreen(),
-     // home: BottomNavbar(),
-    // home: SettingScreen(),
-     //home: CounterScreen(),
-     // home: AiAssistScreen(),
-      //home: WeatherScreen(),
-      //home: DashboardScreen(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_project/signin_screen.dart';
-import 'package:first_project/signup_screen.dart';
+import 'package:first_project/view/screens/auth_screens/signin_screen/signin_screen.dart';
+import 'package:first_project/view/screens/auth_screens/signup_screen/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_navbar.dart';
