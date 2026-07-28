@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/signin_screen.dart';
+import 'package:first_project/signup_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'bottom_navbar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,17 +14,29 @@ class SplashScreen extends StatefulWidget {
 class _State extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    splashDelay();
+    _navigateToNextScreen();
   }
 
-  splashDelay() async {
-    await Future.delayed(Duration(seconds: 3));
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => SignInScreen()),
-    );
+  Future<void> _navigateToNextScreen() async {
+    // 1. Wait for 3 seconds
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (!mounted) return;
+
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavbar()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SignInScreen()),
+      );
+    }
   }
 
   @override

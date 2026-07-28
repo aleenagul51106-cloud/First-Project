@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/signup_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -10,6 +13,78 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  ///variable of radio button widget
+  bool isOn = false;
+
+  ///variable of switch widget
+  String gender = 'Male';
+
+  ///variable of checkBox
+  bool? isChecked = false;
+  //
+  // Future<void> login() async{
+  //   await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //       email: emailController.text.trim(),
+  //       password: passwordController.text.trim(),);
+  // }
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> loginUser() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Login Successful"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+
+      switch (e.code) {
+        case "user-not-found":
+          errorMessage = "No user found for this email.";
+          break;
+
+        case "wrong-password":
+          errorMessage = "Incorrect password.";
+          break;
+
+        case "invalid-email":
+          errorMessage = "Please enter a valid email.";
+          break;
+
+        case "invalid-credential":
+          errorMessage = "Invalid email or password.";
+          break;
+
+        case "network-request-failed":
+          errorMessage = "No internet connection.";
+          break;
+
+        default:
+          errorMessage = e.message ?? "Login failed.";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     SizedBox(height: 15),
 
                     TextFormField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
@@ -118,12 +194,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     SizedBox(height: 15),
 
                     TextFormField(
+                      controller: passwordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your password";
                         }
 
-                        if (value.length < 8) {
+                        if (value.length < 6) {
                           return "Password must be at least 8 characters long";
                         }
 
@@ -159,20 +236,65 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 40),
+                    SizedBox(height: 20),
 
+                    ///switch widget
+                    Switch(
+                      activeTrackColor: Colors.blue.shade900,
+                      value: isOn,
+                      onChanged: (value) {
+                        setState(() {
+                          isOn = value;
+                        });
+                      },
+                    ),
+
+                    ///CheckBox widget
+                    CheckboxListTile(
+                      value: isChecked,
+                      activeColor: Colors.blue.shade900,
+
+                      ///if we don't put this line,it will byDefault give green color
+                      title: Text(
+                        "Accept the terms and conditions",
+                        style: TextStyle(color: Colors.black54),
+                      ),
+
+                      onChanged: (value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      },
+                    ),
+
+                    //
+                    // ///Radio button widget
+                    // RadioListTile(
+                    //   value: "Male",
+                    //   groupValue: gender ,
+                    //   title: Text("Male"),
+                    //   onChanged: (value){
+                    //   setState(() {
+                    //     gender = value!;
+                    //   });
+                    //   },
+                    //
+                    // ),
+                    // RadioListTile(
+                    //   value: "Female",
+                    // groupValue: gender ,
+                    //   title: Text("Female"),
+                    //   onChanged: (value){
+                    //   setState(() {
+                    //     gender = value!;
+                    //   });
+                    //   },
+                    //
+                    // ),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpScreen(
-                                userName: "ALEENA",
-                                userNumber: 111111111,
-                              ),
-                            ),
-                          ); //putting value of the variable
+                          await loginUser(); //putting value of the variable
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -281,11 +403,21 @@ class _SignInScreenState extends State<SignInScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Don't have an account? "),
-                        Text(
-                          "Sign up",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpScreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],

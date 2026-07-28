@@ -1,18 +1,136 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/home_screen.dart';
 import 'package:first_project/signin_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
-  final String userName; //constructor
-  final int userNumber;
-  SignUpScreen({required this.userName, required this.userNumber});
+  // final String userName; //constructor
+  // final int userNumber;
+  SignUpScreen({super.key});
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  ///variable of switch widget
+  String gender = 'Male';
+
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+
+
+  Future<void> signUpUser() async {
+    try {
+      UserCredential userCredential =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      final uid = userCredential.user!.uid;
+
+      // Store user data in Firestore
+      try {
+        await storeUserData(
+          uid,
+          firstNameController.text.trim(),
+          lastNameController.text.trim(),
+          emailController.text.trim(),
+        );
+      } on FirebaseException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Firestore Error: ${e.message}"),
+            backgroundColor: Colors.red,
+          ),
+        );
+
+        debugPrint("Firestore Error Code: ${e.code}");
+        debugPrint("Firestore Error Message: ${e.message}");
+        return; // Stop execution if Firestore fails
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Account Created Successfully"),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message = "";
+
+      switch (e.code) {
+        case "email-already-in-use":
+          message = "This email is already registered.";
+          break;
+        case "invalid-email":
+          message = "Please enter a valid email.";
+          break;
+        case "weak-password":
+          message = "Password should be at least 6 characters.";
+          break;
+        case "operation-not-allowed":
+          message = "Email/Password sign in is disabled.";
+          break;
+        case "network-request-failed":
+          message = "No internet connection.";
+          break;
+        default:
+          message = e.message ?? "Something went wrong.";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+        ),
+      );
+
+      debugPrint("Firebase Auth Error: ${e.code}");
+      debugPrint("Message: ${e.message}");
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
+
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void>storeUserData(String uid,String firstName,String lastName,String email)async{
+    await FirebaseFirestore.instance.collection("AppUser").doc(uid).set(
+        {
+          "firstName":firstName,
+        "lastName":lastName,
+          "email":email,
+          "createdAt":DateTime.now()
+        });
+  }
+
+
   @override
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -46,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Icon(Icons.autorenew, color: Colors.white),
 
                     Text(
-                      " ${widget.userName}, ${widget.userNumber}", //putting signin screen variable here with $ sign
+                      " User Name", //putting signin screen variable here with $ sign
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -98,6 +216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 10),
 
                       TextFormField(
+                        controller: firstNameController,
                         keyboardType: TextInputType.name,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
@@ -121,6 +240,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 10),
 
                       TextFormField(
+                        controller: lastNameController,
                         keyboardType: TextInputType.name,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
@@ -143,11 +263,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text("Email", style: TextStyle(fontSize: 16)),
                       SizedBox(height: 10),
                       TextFormField(
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return "Please enter your email adress";
+                            return "Please enter your email";
                           }
+
+                          if (!RegExp(
+                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value)) {
+                            return "Enter a valid email";
+                          }
+
+                          return null;
                         },
                         decoration: InputDecoration(
                           hintText: "Enter your email",
@@ -159,25 +288,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
 
-                      SizedBox(height: 20),
-                      Text("Phone Number", style: TextStyle(fontSize: 16)),
-                      SizedBox(height: 10),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return "Please enter your Phone Number";
-                          }
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Enter your Phone Number",
-                          // labelText: "Enter your email",
-                          prefixIcon: Icon(Icons.phone_outlined),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
+                      // SizedBox(height: 20),
+                      // Text("Phone Number", style: TextStyle(fontSize: 16)),
+                      // SizedBox(height: 10),
+                      // TextFormField(
+                      //   keyboardType: TextInputType.number,
+                      //   validator: (value) {
+                      //     if (value == null || value.trim().isEmpty) {
+                      //       return "Please enter your Phone Number";
+                      //     }
+                      //   },
+                      //   decoration: InputDecoration(
+                      //     hintText: "Enter your Phone Number",
+                      //     // labelText: "Enter your email",
+                      //     prefixIcon: Icon(Icons.phone_outlined),
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(50),
+                      //     ),
+                      //   ),
+                      // ),
 
                       SizedBox(height: 20),
 
@@ -185,17 +314,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 10),
 
                       TextFormField(
-                        keyboardType: TextInputType.name,
+                        controller: passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: true,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return "Please enter your Password";
                           }
+
+                          if (value.length < 6) {
+                            return "Password must be at least 6 characters";
+                          }
+
+                          return null;
                         },
-                        obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Enter your password",
-                          // labelText: "Enter your email",
-                          prefixIcon: Icon(Icons.lock_open),
+                          prefixIcon: Icon(Icons.lock_outline),
                           suffixIcon: Icon(Icons.remove_red_eye_outlined),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
@@ -205,25 +340,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       SizedBox(height: 20),
 
-                      InkWell(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(
+                      ///Radio button widget
+                      RadioListTile(
+                        value: "Male",
+                        groupValue: gender ,
+                        title: Text("Male"),
+                        onChanged: (value){
+                        setState(() {
+                          gender = value!;
+                        });
+                        },
 
-                                ),
-                              ),
-                            ); //putting value of the variable
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  "Please fill all the Textfields..!",
-                                ),
-                              ),
-                            );
+                      ),
+                      RadioListTile(
+                        value: "Female",
+                      groupValue: gender ,
+                        title: Text("Female"),
+                        onChanged: (value){
+                        setState(() {
+                          gender = value!;
+                        });
+                        },
+
+                      ),
+
+                      InkWell(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await signUpUser();
                           }
                         },
                         child: Container(
@@ -333,11 +477,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("Already have an account? "),
-                          Text(
-                            "Sign in",
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignInScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Sign in",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],

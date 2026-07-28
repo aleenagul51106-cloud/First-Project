@@ -1,6 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_project/bottom_navbar.dart';
 import 'package:first_project/calculator_screen.dart';
 import 'package:first_project/counterapp_screen.dart';
+import 'package:first_project/dashboard_screen.dart';
+import 'package:first_project/firebase_options.dart';
 import 'package:first_project/home_screen.dart';
 import 'package:first_project/menu_screen.dart';
 import 'package:first_project/practice_screen.dart';
@@ -12,7 +15,14 @@ import 'package:first_project/student_profile.dart';
 import 'package:first_project/weather_data_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'ai_assist_screen.dart';
+
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+
   runApp(const MyApp());
 }
 
@@ -29,15 +39,16 @@ class MyApp extends StatelessWidget {
      //  home: PracticeScreen(),
      // home: StudentProfile(),
       // home: SignInScreen(),
-       //  home: SplashScreen(),
+        home: SplashScreen(),
       //home: SignUpScreen()
        // home: HomeScreen(),
          // home: MenuScreen(),
      // home: BottomNavbar(),
     // home: SettingScreen(),
      //home: CounterScreen(),
-      //home: CalculatorScreen(),
-      home: WeatherScreen(),
+     // home: AiAssistScreen(),
+      //home: WeatherScreen(),
+      //home: DashboardScreen(),
     );
   }
 }
