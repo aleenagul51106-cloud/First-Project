@@ -13,8 +13,8 @@ class AiAssistScreen extends StatefulWidget {
 
 class _AiAssistScreenState extends State<AiAssistScreen> {
   //===================== PASTE YOUR API KEY HERE =====================
-  static const String apiKey =
-      "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";
+  // static const String apiKey =
+  //     "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";
 
   static const String apiUrl =
       "https://api.groq.com/openai/v1/chat/completions";
@@ -24,73 +24,73 @@ class _AiAssistScreenState extends State<AiAssistScreen> {
 
   bool isLoading = false;
 
-  Future<void> sendMessage() async {
-    if (_controller.text.trim().isEmpty) return;
-
-    String userMessage = _controller.text.trim();
-
-    setState(() {
-      messages.add({
-        "isUser": true,
-        "message": userMessage,
-      });
-      isLoading = true;
-    });
-
-    _controller.clear();
-
-    try {
-      final response = await http.post(
-        Uri.parse("$apiUrl?key=$apiKey"),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode({
-          "contents": [
-            {
-              "parts": [
-                {
-                  "text": userMessage,
-                }
-              ]
-            }
-          ]
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        String reply =
-        data["candidates"][0]["content"]["parts"][0]["text"];
-
-        setState(() {
-          messages.add({
-            "isUser": false,
-            "message": reply,
-          });
-        });
-      } else {
-        setState(() {
-          messages.add({
-            "isUser": false,
-            "message": "Error : ${response.body}",
-          });
-        });
-      }
-    } catch (e) {
-      setState(() {
-        messages.add({
-          "isUser": false,
-          "message": e.toString(),
-        });
-      });
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
+  // Future<void> sendMessage() async {
+  //   if (_controller.text.trim().isEmpty) return;
+  //
+  //   String userMessage = _controller.text.trim();
+  //
+  //   setState(() {
+  //     messages.add({
+  //       "isUser": true,
+  //       "message": userMessage,
+  //     });
+  //     isLoading = true;
+  //   });
+  //
+  //   _controller.clear();
+  //
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse("$apiUrl?key=$apiKey"),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: jsonEncode({
+  //         "contents": [
+  //           {
+  //             "parts": [
+  //               {
+  //                 "text": userMessage,
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }),
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       final data = jsonDecode(response.body);
+  //
+  //       String reply =
+  //       data["candidates"][0]["content"]["parts"][0]["text"];
+  //
+  //       setState(() {
+  //         messages.add({
+  //           "isUser": false,
+  //           "message": reply,
+  //         });
+  //       });
+  //     } else {
+  //       setState(() {
+  //         messages.add({
+  //           "isUser": false,
+  //           "message": "Error : ${response.body}",
+  //         });
+  //       });
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       messages.add({
+  //         "isUser": false,
+  //         "message": e.toString(),
+  //       });
+  //     });
+  //   }
+  //
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 
   Widget chatBubble(bool isUser, String text) {
     return Align(
@@ -183,17 +183,17 @@ class _AiAssistScreenState extends State<AiAssistScreen> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: Colors.deepPurple,
-                  child: IconButton(
-                    onPressed: isLoading ? null : sendMessage,
-                    icon: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                // CircleAvatar(
+                //   radius: 28,
+                //   backgroundColor: Colors.deepPurple,
+                //   child: IconButton(
+                //     onPressed: isLoading ? null : sendMessage,
+                //     icon: const Icon(
+                //       Icons.send,
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

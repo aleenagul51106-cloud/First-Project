@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
   ///variable of checkBox
   bool? isChecked = false;
+
+  ///loading state for signin button
+  bool isLoading = false;
   //
   // Future<void> login() async{
   //   await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -291,10 +295,24 @@ class _SignInScreenState extends State<SignInScreen> {
                     //   },
                     //
                     // ),
+
+                    /// ================== CHANGED PORTION START ==================
                     GestureDetector(
-                      onTap: () async {
+                      onTap: isLoading
+                          ? null
+                          : () async {
                         if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            isLoading = true;
+                          });
+
                           await loginUser(); //putting value of the variable
+
+                          if (mounted) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -313,7 +331,16 @@ class _SignInScreenState extends State<SignInScreen> {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Center(
-                          child: Text(
+                          child: isLoading
+                              ? SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.5,
+                            ),
+                          )
+                              : Text(
                             "Sign in",
                             style: TextStyle(
                               color: Colors.white,
@@ -323,6 +350,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     ),
+                    /// ================== CHANGED PORTION END ==================
 
                     SizedBox(height: 25),
 
