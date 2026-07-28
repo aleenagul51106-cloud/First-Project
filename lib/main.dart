@@ -15,7 +15,6 @@ import 'package:first_project/student_profile.dart';
 import 'package:first_project/weather_data_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'ai_assist_screen.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
