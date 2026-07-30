@@ -1,12 +1,44 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class StudentProfile extends StatelessWidget {
+class StudentProfile extends StatefulWidget {
   const StudentProfile({super.key});
+
+  @override
+  State<StudentProfile> createState() => _StudentProfileState();
+}
+
+class _StudentProfileState extends State<StudentProfile> {
+
+  DocumentSnapshot? snapshot;
+
+  Future<void> getUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      snapshot = await FirebaseFirestore.instance
+          .collection('AppUser')
+          .doc(user.uid)
+          .get();
+
+      setState(() {});
+    } else {
+      print("No user is logged in.");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
 
 
       backgroundColor: Colors.white,
@@ -50,14 +82,23 @@ class StudentProfile extends StatelessWidget {
 
 
 
-            Text(
-              "Aleena",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "${snapshot?['firstName']} ",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "${snapshot?['lastName']}",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
 
             Text(
-              "Flutter Developer",
-              style: TextStyle(fontSize: 16, color: Colors.black45),
+              "${snapshot?['email']}",
+              style: TextStyle(fontSize: 16, color: Colors.black54),
             ),
 
             SizedBox(height: 10),
@@ -196,7 +237,7 @@ class StudentProfile extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "aleena@gmail.com",
+                          "${snapshot?['email']}",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

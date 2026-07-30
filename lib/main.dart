@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:first_project/bottom_navbar.dart';
 import 'package:first_project/calculator_screen.dart';
 import 'package:first_project/counterapp_screen.dart';
+import 'package:first_project/currency_converter_screen.dart';
 import 'package:first_project/dashboard_screen.dart';
 import 'package:first_project/firebase_options.dart';
+import 'package:first_project/language_translator_screen.dart';
 import 'package:first_project/view/screens/home_screen/home_screen.dart';
 import 'package:first_project/menu_screen.dart';
 import 'package:first_project/practice_screen.dart';
@@ -11,7 +13,7 @@ import 'package:first_project/view/screens/setting_screen/setting_screen.dart';
 import 'package:first_project/view/screens/auth_screens/signin_screen/signin_screen.dart';
 import 'package:first_project/view/screens/auth_screens/signup_screen/signup_screen.dart';
 import 'package:first_project/splash_screen.dart';
-import 'package:first_project/student_profile.dart';
+import 'package:first_project/view/screens/student_profile/student_profile.dart';
 import 'package:first_project/weather_data_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +37,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.green)),
-        home: SplashScreen(),
+       // home: SplashScreen(),
+      //home: CurrencyConverterScreen()
+      home:TranslatorApp()
     );
   }
 }

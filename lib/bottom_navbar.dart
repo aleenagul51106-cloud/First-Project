@@ -2,7 +2,7 @@
 import 'package:first_project/view/screens/home_screen/home_screen.dart';
 import 'package:first_project/view/screens/auth_screens/signin_screen/signin_screen.dart';
 import 'package:first_project/splash_screen.dart';
-import 'package:first_project/student_profile.dart';
+import 'package:first_project/view/screens/student_profile/student_profile.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavbar extends StatefulWidget {
