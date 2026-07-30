@@ -6,6 +6,7 @@ import 'package:first_project/currency_converter_screen.dart';
 import 'package:first_project/dashboard_screen.dart';
 import 'package:first_project/firebase_options.dart';
 import 'package:first_project/language_translator_screen.dart';
+import 'package:first_project/unit_converter_screen.dart';
 import 'package:first_project/view/screens/home_screen/home_screen.dart';
 import 'package:first_project/menu_screen.dart';
 import 'package:first_project/practice_screen.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.green)),
        // home: SplashScreen(),
       //home: CurrencyConverterScreen()
-      home:TranslatorApp()
+     // home:TranslatorApp()
+      home: UnitConverterApp()
     );
   }
 }
