@@ -3,27 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(const TranslatorApp());
-}
-
-class TranslatorApp extends StatelessWidget {
-  const TranslatorApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Language Translator',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        scaffoldBackgroundColor: const Color(0xFFF4F6F8),
-        useMaterial3: true,
-      ),
-      home: const TranslatorScreen(),
-    );
-  }
-}
 
 class TranslatorScreen extends StatefulWidget {
   const TranslatorScreen({super.key});

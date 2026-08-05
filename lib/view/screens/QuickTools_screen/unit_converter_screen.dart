@@ -1,26 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const UnitConverterApp());
-}
-
-class UnitConverterApp extends StatelessWidget {
-  const UnitConverterApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Unit Converter',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
-        scaffoldBackgroundColor: const Color(0xFFF4F6F8),
-        useMaterial3: true,
-      ),
-      home: const UnitConverterScreen(),
-    );
-  }
-}
 
 class UnitConverterScreen extends StatefulWidget {
   const UnitConverterScreen({super.key});

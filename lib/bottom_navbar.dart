@@ -1,9 +1,10 @@
 
-import 'package:first_project/view/screens/home_screen/home_screen.dart';
-import 'package:first_project/view/screens/auth_screens/signin_screen/signin_screen.dart';
-import 'package:first_project/splash_screen.dart';
+import 'package:first_project/view/screens/QuickTools_screen/unit_converter_screen.dart';
+import 'package:first_project/view/screens/ProductListScreen/ProductListScreen.dart';
 import 'package:first_project/view/screens/student_profile/student_profile.dart';
 import 'package:flutter/material.dart';
+
+import 'view/screens/mobile_catalog_screen/mobile_catalog_screen.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});
@@ -16,9 +17,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    HomeScreen() ,
-    SignInScreen(),
-    SplashScreen(),
+    ProductListScreen() ,
+    UnitConverterScreen(),
+    MobileCatalogScreen(),
     StudentProfile(),
 
   ];
@@ -51,8 +52,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
+            icon: Icon(Icons.production_quantity_limits),
+            label: 'Product',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

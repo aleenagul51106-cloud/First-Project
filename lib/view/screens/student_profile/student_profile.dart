@@ -46,7 +46,18 @@ class _StudentProfileState extends State<StudentProfile> {
 
 
         backgroundColor: Colors.blue,
-        leading: Icon(Icons.arrow_back_outlined, color: Colors.white),
+
+
+        leading:
+        InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_outlined,
+            color: Colors.white,
+          ),
+        ),
         title: const Text("My Profile"),
         centerTitle: true,
         actions: [

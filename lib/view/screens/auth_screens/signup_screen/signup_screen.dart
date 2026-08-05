@@ -1,9 +1,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_project/view/screens/home_screen/home_screen.dart';
 import 'package:first_project/view/screens/auth_screens/signin_screen/signin_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../ProductListScreen/ProductListScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   // final String userName; //constructor
@@ -75,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => ProductListScreen()),
       );
     } on FirebaseAuthException catch (e) {
       String message = "";
@@ -137,6 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   @override
+
   void dispose() {
     emailController.dispose();
     passwordController.dispose();

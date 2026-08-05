@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/view/screens/auth_screens/signup_screen/signup_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../home_screen/home_screen.dart';
+import '../../../../core/constant/color.dart';
+import '../../../widgets/custom_button.dart';
+import '../../ProductListScreen/ProductListScreen.dart';
+
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -50,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => ProductListScreen()),
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -93,7 +96,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: PrimaryColor,
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,11 +326,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           );
                         }
                       },
+                      ///already made single line custom widget for this
                       child: Container(
                         height: 50,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.blue.shade900,
+                          color: PrimaryColor,
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Center(
@@ -350,7 +354,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     ),
-                    /// ================== CHANGED PORTION END ==================
 
                     SizedBox(height: 25),
 

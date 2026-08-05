@@ -444,7 +444,8 @@ import 'package:first_project/view/screens/auth_screens/signin_screen/signin_scr
 import 'package:first_project/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../menu_screen.dart';
+import '../menu_screen/menu_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
